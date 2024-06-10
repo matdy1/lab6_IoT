@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
         Button ingresos = findViewById(R.id.ingresos);
         ingresos.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, AgregarEditarIngresosActivity.class);
+            Intent intent = new Intent(MainActivity.this, MainActivity.class);
             startActivity(intent);
         });
 
