@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.lab6.databinding.ActivityMainBinding;
 import com.firebase.ui.auth.AuthUI;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -48,6 +49,32 @@ public class MainActivity extends AppCompatActivity {
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         ImageView profileButton = findViewById(R.id.profileButtonPopup);
+
+        FloatingActionButton fabAddTask = findViewById(R.id.agregarIngreso);
+        fabAddTask.setOnClickListener(v -> {
+            Intent addTaskIntent  = new Intent(MainActivity.this, AgregarEditarIngresosActivity.class);
+            startActivityForResult(addTaskIntent, ADD_TASK_REQUEST);
+        });
+
+        Button ingresos =findViewById(R.id.ingresos);
+        ingresos.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, AgregarEditarIngresosActivity.class);
+            startActivity(intent);
+        });
+
+        Button egresos =findViewById(R.id.egresos);
+        egresos.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, EgresosActivity.class);
+            startActivity(intent);
+        });
+
+        Button graficas =findViewById(R.id.graficas);
+        graficas.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, ResumenActivity.class);
+            startActivity(intent);
+        });
+
+
         profileButton.setOnClickListener(v -> {
             LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View popupView = inflater.inflate(R.layout.popup_profile, null);

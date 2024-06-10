@@ -3,6 +3,7 @@ package com.example.lab6;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -55,6 +56,7 @@ public class LoginActivity extends AppCompatActivity {
                         .createSignInIntentBuilder()
                         .setAuthMethodPickerLayout(customLayout)
                         .setAvailableProviders(providers)
+                        .setIsSmartLockEnabled(false) // Desactiva SmartLock si no lo necesitas
                         .build(),
                 RC_SIGN_IN
         );
@@ -70,6 +72,10 @@ public class LoginActivity extends AppCompatActivity {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 if (user != null && user.isEmailVerified()) {
                     goToMainActivity();
+                } else if (user != null && !user.isEmailVerified()) {
+                    // Maneja el caso donde el email no está verificado
+                    Toast.makeText(this, "Por favor, verifica tu correo electrónico.", Toast.LENGTH_LONG).show();
+                    FirebaseAuth.getInstance().signOut(); // Cierra sesión
                 }
             } else {
                 // Fallo en el inicio de sesión
