@@ -15,11 +15,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -38,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
     FirebaseUser currentUser;
     private FirebaseFirestore db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(ingresosAdapter);
+
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         ImageView profileButton = findViewById(R.id.profileButtonPopup);
@@ -60,14 +58,12 @@ public class MainActivity extends AppCompatActivity {
                     ViewGroup.LayoutParams.WRAP_CONTENT);
 
             popupWindow.setBackgroundDrawable(new ColorDrawable());
-
             popupWindow.setOutsideTouchable(true);
-
             popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
             dimBehind(popupWindow);
 
-            TextView textViewName = findViewById(R.id.textViewName);
-            TextView textViewEmail = findViewById(R.id.textViewEmail);
+            TextView textViewName = popupView.findViewById(R.id.textViewName);
+            TextView textViewEmail = popupView.findViewById(R.id.textViewEmail);
 
             if (currentUser != null) {
                 textViewName.setText(currentUser.getDisplayName());
@@ -85,7 +81,6 @@ public class MainActivity extends AppCompatActivity {
                             finish();
                         });
             });
-
         });
     }
 
@@ -96,6 +91,5 @@ public class MainActivity extends AppCompatActivity {
         p.flags |= WindowManager.LayoutParams.FLAG_DIM_BEHIND;
         p.dimAmount = 0.5f;
         wm.updateViewLayout(container, p);
-
     }
 }
