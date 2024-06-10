@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp">
+
+        <Button
+            android:id="@+id/ingresos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10sp"
+            android:layout_toEndOf="@id/egresos"
+            android:text="Ingresos" />
+
+        <Button
+            android:id="@+id/egresos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/graficas"
+            android:layout_marginStart="10sp"
+            android:text="Egresos" />
+
+        <Button
+            android:id="@+id/graficas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Resumen" />
+
+        <ImageView
+            android:id="@+id/profileButtonPopup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:contentDescription="Profile Button"
+            android:src="@drawable/baseline_account_circle_24"
+            android:background="@drawable/shape_profile"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

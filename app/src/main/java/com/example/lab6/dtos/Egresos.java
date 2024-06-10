@@ -1,20 +1,24 @@
 package com.example.lab6.dtos;
 
-public class Egresos {
+import java.io.Serializable;
+import java.util.Date;
+
+public class Egresos implements Serializable {
 
     private String titulo;
     private double monto;
     private String descripcion;
-    private String date;
+    private Date dueDate;
 
     public Egresos() {
         // Constructor vacío necesario para Firebase
     }
-    public Egresos(String titulo, double monto, String descripcion, String date) {
+
+    public Egresos(String titulo, double monto, String descripcion, Date dueDate) {
         this.titulo = titulo;
         this.monto = monto;
         this.descripcion = descripcion;
-        this.date = date;
+        this.dueDate = dueDate;
     }
 
     public String getTitulo() {
@@ -41,11 +45,11 @@ public class Egresos {
         this.descripcion = descripcion;
     }
 
-    public String getDate() {
-        return date;
+    public Date getDueDate() {
+        return dueDate;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setDueDate(Date dueDate) {
+        this.dueDate = dueDate;
     }
 }

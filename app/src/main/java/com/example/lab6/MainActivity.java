@@ -1,15 +1,31 @@
 package com.example.lab6;
 
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.PopupWindow;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final int ADD_TASK_REQUEST = 1;
+    public static final int EDIT_TASK_REQUEST = 2;
+    private IngresosAdapter ingresosAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,5 +36,46 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(ingresosAdapter);
+
+        ImageView profileButton = findViewById(R.id.profileButtonPopup);
+        profileButton.setOnClickListener(v -> {
+            LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View popupView = inflater.inflate(R.layout.popup_profile, null);
+
+            final PopupWindow popupWindow = new PopupWindow(
+                    popupView,
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+
+            popupWindow.setBackgroundDrawable(new ColorDrawable());
+
+            popupWindow.setOutsideTouchable(true);
+
+            popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
+            dimBehind(popupWindow);
+
+            Button buttonLogout = popupView.findViewById(R.id.buttonLogout);
+            buttonLogout.setOnClickListener(v1 -> {
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+            });
+
+
+
+        });
+    }
+
+    private void dimBehind(PopupWindow popupWindow) {
+        View container = popupWindow.getContentView().getRootView();
+        WindowManager wm = (WindowManager) container.getContext().getSystemService(Context.WINDOW_SERVICE);
+        WindowManager.LayoutParams p = (WindowManager.LayoutParams) container.getLayoutParams();
+        p.flags |= WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+        p.dimAmount = 0.5f;
+        wm.updateViewLayout(container, p);
+
     }
 }
