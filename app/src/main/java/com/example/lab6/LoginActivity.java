@@ -50,7 +50,6 @@ public class LoginActivity extends AppCompatActivity {
                 .setEmailButtonId(R.id.loginEmail)
                 .build();
 
-        // No hay sesión, mostrar pantalla de inicio de sesión
         startActivityForResult(
                 AuthUI.getInstance()
                         .createSignInIntentBuilder()

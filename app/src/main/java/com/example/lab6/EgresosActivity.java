@@ -29,5 +29,6 @@ public class EgresosActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.recyclerView1);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(egresosAdapter);
+
     }
 }

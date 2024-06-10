@@ -12,6 +12,8 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,25 +23,31 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.lab6.databinding.ActivityMainBinding;
+import com.firebase.ui.auth.AuthUI;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 public class MainActivity extends AppCompatActivity {
 
     public static final int ADD_TASK_REQUEST = 1;
     public static final int EDIT_TASK_REQUEST = 2;
     private IngresosAdapter ingresosAdapter;
+    private static final int TOAST_DURATION = Toast.LENGTH_LONG;
+    ActivityMainBinding binding;
+    FirebaseUser currentUser;
+    private FirebaseFirestore db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(ingresosAdapter);
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         ImageView profileButton = findViewById(R.id.profileButtonPopup);
         profileButton.setOnClickListener(v -> {
@@ -58,13 +66,25 @@ public class MainActivity extends AppCompatActivity {
             popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
             dimBehind(popupWindow);
 
+            TextView textViewName = findViewById(R.id.textViewName);
+            TextView textViewEmail = findViewById(R.id.textViewEmail);
+
+            if (currentUser != null) {
+                textViewName.setText(currentUser.getDisplayName());
+                textViewEmail.setText(currentUser.getEmail());
+            } else {
+                Toast.makeText(MainActivity.this, "No está logueado", TOAST_DURATION).show();
+            }
+
             Button buttonLogout = popupView.findViewById(R.id.buttonLogout);
             buttonLogout.setOnClickListener(v1 -> {
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(intent);
+                AuthUI.getInstance().signOut(MainActivity.this)
+                        .addOnCompleteListener(task -> {
+                            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                            finish();
+                        });
             });
-
-
 
         });
     }
