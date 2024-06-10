@@ -2,6 +2,7 @@ package com.example.lab6;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -58,11 +59,16 @@ public class AgregarEditarIngresosActivity extends AppCompatActivity {
                     .add(ingresos)
                     .addOnSuccessListener(unused -> {
                         Toast.makeText(this, "Ingreso guardado", Toast.LENGTH_SHORT).show();
+                        // Redirigir a otra actividad
+                        Intent intent = new Intent(AgregarEditarIngresosActivity.this, MainActivity.class); // Reemplaza NuevaActividad.class con la clase de tu actividad de destino
+                        startActivity(intent);
+                        finish(); // Opcional: Llama a finish() si deseas cerrar la actividad actual
                     })
                     .addOnFailureListener(e -> {
                         Toast.makeText(this, "Error al guardar", Toast.LENGTH_SHORT).show();
                     });
         });
+
     }
 
     private void showDateTimePicker() {
@@ -87,7 +93,4 @@ public class AgregarEditarIngresosActivity extends AppCompatActivity {
         return true;
     }
 
-    private void saveTask() {
-        // Implementación para guardar la tarea
-    }
 }

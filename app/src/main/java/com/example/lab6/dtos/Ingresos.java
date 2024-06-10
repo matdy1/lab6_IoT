@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Ingresos implements Serializable {
+
+    private String id;
     private String titulo;
     private double monto;
     private String descripcion;
@@ -13,11 +15,20 @@ public class Ingresos implements Serializable {
         // Constructor vacío necesario para Firebase
     }
 
-    public Ingresos(String titulo, double monto, String descripcion, Date dueDate) {
+    public Ingresos(String id, String titulo, double monto, String descripcion, Date dueDate) {
+        this.id = id;
         this.titulo = titulo;
         this.monto = monto;
         this.descripcion = descripcion;
         this.dueDate = dueDate;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getTitulo() {
